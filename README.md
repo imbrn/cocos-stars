@@ -3,6 +3,8 @@ Cocos Stars
 
 [Cocos2d-x](http://cocos2d-x.org/) component for exhibition of rating stars in game endings.
 
+![Stars](docs/stars.gif)
+
 ## Features
 
 * Custom stars graphics
