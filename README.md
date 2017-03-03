@@ -7,4 +7,14 @@ Cocos Stars
 
 * Custom stars graphics
 * Custom amount of stars
-* Animation
+* Rating animation
+* Cocos2d-x 3.14 or above
+
+## How to use
+
+By default it expects you to have the following images in your resources path:
+
+* active_star.png
+* inactive_star.png
+
+but you can configure whatever images you like.
