@@ -1,0 +1,24 @@
+# Visual Studio Code
+.vscode/
+
+# Cocos Structure
+bin/
+Classes/AppDelegate.*
+Classes/HelloWorldScene.*
+cocos2d/
+linux-build/
+build/
+proj.android/
+proj.android-studio/
+proj.ios_mac/
+proj.linux/
+proj.tizen/
+proj.win10/
+proj.win32/
+proj.win8.1-universal/
+Resources/
+.cocos-project.json
+CMakeLists.txt
+
+# cocos-menu-bar
+cocos-menu-bar/
