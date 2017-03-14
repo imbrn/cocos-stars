@@ -4,7 +4,7 @@
 namespace stars {
 
 RatingAnimation::RatingAnimation(const RatingAnimationBuilder &builder):
-    stars_(builder.stars_), shine_duration_(builder.shine_duration_), shine_sound_effect_(builder.shine_sound_effect_),
+    stars_(builder.stars_), shine_duration_(builder.shine_duration_), shine_sound_(builder.shine_sound_),
     delay_(builder.delay_), rating_(builder.rating_) {}
 
 cocos2d::FiniteTimeAction *RatingAnimation::AsAction() {
@@ -45,13 +45,13 @@ cocos2d::FiniteTimeAction *RatingAnimation::CreateSetVisible(unsigned int index)
 }
 
 cocos2d::FiniteTimeAction *RatingAnimation::CreateShineSound(unsigned int index) {
-  return cocos2d::CallFunc::create([this]() {
-    PlayShineSoundEffect();
+  return cocos2d::CallFunc::create([this, index]() {
+    PlayShineSoundEffect(index);
   });
 }
 
-void RatingAnimation::PlayShineSoundEffect() {
-  CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(shine_sound_effect_.c_str(), false, 1.0, 1.0, 1.0);
+void RatingAnimation::PlayShineSoundEffect(unsigned int star_index) {
+  if (shine_sound_) shine_sound_->PlayShineSound(star_index);
 }
 
 cocos2d::FiniteTimeAction *RatingAnimation::CreateScaleUp(unsigned int index, float duration) {
@@ -72,8 +72,8 @@ cocos2d::FiniteTimeAction *RatingAnimation::CreateAutoDestroyAction() {
 
 RatingAnimationBuilder::RatingAnimationBuilder(Stars *stars): stars_(stars) {}
 
-RatingAnimationBuilder &RatingAnimationBuilder::set_shine_sound_effect(const std::string &path) {
-  shine_sound_effect_ = path;
+RatingAnimationBuilder &RatingAnimationBuilder::set_shine_sound(RatingShineSound *shine_sound) {
+  shine_sound_ = shine_sound;
   return *this;
 }
 
