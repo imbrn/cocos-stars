@@ -1,10 +1,11 @@
 #include "rating_animation.h"
+#include "SimpleAudioEngine.h"
 
 namespace stars {
 
 RatingAnimation::RatingAnimation(const RatingAnimationBuilder &builder):
-    stars_(builder.stars_), shine_duration_(builder.shine_duration_), delay_(builder.delay_),
-    rating_(builder.rating_) {}
+    stars_(builder.stars_), shine_duration_(builder.shine_duration_), shine_sound_effect_(builder.shine_sound_effect_),
+    delay_(builder.delay_), rating_(builder.rating_) {}
 
 cocos2d::FiniteTimeAction *RatingAnimation::AsAction() {
   return CreateAction();
@@ -30,6 +31,7 @@ cocos2d::FiniteTimeAction *RatingAnimation::CreateRatingAction(unsigned int inde
 cocos2d::FiniteTimeAction *RatingAnimation::CreateShine(unsigned int index) {
   return cocos2d::Sequence::create(
     CreateSetVisible(index),
+    CreateShineSound(index),
     CreateScaleUp(index, shine_duration_ * 0.4),
     CreateScaleDown(index, shine_duration_ * 0.6),
     nullptr
@@ -40,6 +42,16 @@ cocos2d::FiniteTimeAction *RatingAnimation::CreateSetVisible(unsigned int index)
   return cocos2d::CallFunc::create([this, index]() {
     stars_->get_active_star(index)->setVisible(true);
   });
+}
+
+cocos2d::FiniteTimeAction *RatingAnimation::CreateShineSound(unsigned int index) {
+  return cocos2d::CallFunc::create([this]() {
+    PlayShineSoundEffect();
+  });
+}
+
+void RatingAnimation::PlayShineSoundEffect() {
+  CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(shine_sound_effect_.c_str(), false, 1.0, 1.0, 1.0);
 }
 
 cocos2d::FiniteTimeAction *RatingAnimation::CreateScaleUp(unsigned int index, float duration) {
@@ -59,6 +71,11 @@ cocos2d::FiniteTimeAction *RatingAnimation::CreateAutoDestroyAction() {
 }
 
 RatingAnimationBuilder::RatingAnimationBuilder(Stars *stars): stars_(stars) {}
+
+RatingAnimationBuilder &RatingAnimationBuilder::set_shine_sound_effect(const std::string &path) {
+  shine_sound_effect_ = path;
+  return *this;
+}
 
 RatingAnimationBuilder &RatingAnimationBuilder::set_shine_duration(float shine_duration) {
   shine_duration_ = shine_duration;

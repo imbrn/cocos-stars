@@ -14,6 +14,7 @@ class RatingAnimationBuilder;
 class RatingAnimation {
   friend class RatingAnimationBuilder;
   Stars *stars_ = nullptr;
+  std::string shine_sound_effect_;
   float shine_duration_;
   float delay_;
   unsigned int rating_;
@@ -31,6 +32,8 @@ private:
   cocos2d::FiniteTimeAction *CreateRatingAction(unsigned int index);
   cocos2d::FiniteTimeAction *CreateShine(unsigned int index);
   cocos2d::FiniteTimeAction *CreateSetVisible(unsigned int index);
+  cocos2d::FiniteTimeAction *CreateShineSound(unsigned int index);
+  void PlayShineSoundEffect();
   cocos2d::FiniteTimeAction *CreateScaleUp(unsigned int index, float duration);
   cocos2d::FiniteTimeAction *CreateScaleDown(unsigned int index, float duration);
   cocos2d::FiniteTimeAction *CreateAutoDestroyAction();
@@ -42,12 +45,14 @@ private:
 class RatingAnimationBuilder {
   friend class RatingAnimation;
   Stars *stars_ = nullptr;
+  std::string shine_sound_effect_ = "audio/star.mp3";
   float shine_duration_ = 0.15f;
   float delay_ = 0.15f;
   unsigned int rating_ = 3;
 
 public:
   RatingAnimationBuilder(Stars *stars);
+  RatingAnimationBuilder &set_shine_sound_effect(const std::string &path);
   RatingAnimationBuilder &set_shine_duration(float shine_duration);
   RatingAnimationBuilder &set_delay(float delay);
   RatingAnimationBuilder &set_rating(unsigned int rating);

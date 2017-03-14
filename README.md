@@ -19,4 +19,8 @@ By default it expects you to have the following images in your resources path:
 * active_star.png
 * inactive_star.png
 
-but you can configure whatever images you like.
+and the following sound:
+
+* audio/star.mp3
+
+but you can configure whatever sound and images you like.
